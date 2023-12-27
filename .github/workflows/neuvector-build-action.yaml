@@ -22,9 +22,10 @@ jobs:
         id: step2
         uses: neuvector/scan-action@main
         with:
+          image-registry: https://registry.hub.docker.com
           image-repository: custom-nginx-test-image
           image-tag: 1.0.0
-          
+
   job2:
     runs-on: ubuntu-latest
     needs: build
