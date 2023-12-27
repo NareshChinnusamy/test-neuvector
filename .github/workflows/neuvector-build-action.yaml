@@ -24,7 +24,7 @@ jobs:
         with:
           image-registry: https://registry.hub.docker.com
           image-repository: custom-nginx-test-image
-          image-tag: 1.0.0
+          image-tag: latest
 
   job2:
     runs-on: ubuntu-latest
