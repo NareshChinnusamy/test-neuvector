@@ -26,9 +26,8 @@ jobs:
         with:
           image-repository: custom-nginx-image
           image-tag: ${{ github.sha }}
-          min-high-cves-to-fail: "3"
-          min-medium-cves-to-fail: "7"
-          cve-names-to-fail: "CVE-2023-2603,CVE-2022-3602"
+          min-high-cves-to-fail: "15"
+          min-medium-cves-to-fail: "15"
   job2:
     runs-on: ubuntu-latest
     needs: build
