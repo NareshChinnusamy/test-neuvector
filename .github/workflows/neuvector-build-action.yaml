@@ -1,0 +1,34 @@
+name: build
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    outputs:  
+        output1: ${{ steps.step2.outputs.high_vulnerability_count }}
+        output2: ${{ steps.step2.outputs.vulnerability_count }}
+        output3: ${{ steps.step2.outputs.medium_vulnerability_count }}
+    steps:
+      - name: Checkout code
+        id: step1
+        uses: actions/checkout@v2
+      - name: Build image
+        run: |
+          docker build -t rk90229/count-user-visits:${{ github.sha }} .
+      - name: Scan Image
+        id: step2
+        uses: neuvector/scan-action@main
+        with:
+          image-repository: rk90229/count-user-visits
+          image-tag: ${{ github.sha }}
+            #min-high-cves-to-fail: "3"
+            #min-medium-cves-to-fail: "7"
+          cve-names-to-fail: "CVE-2023-2603,CVE-2022-3602"
+  job2:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - run: echo "${{needs.build.outputs.output1}}, ${{needs.build.outputs.output2}}, ${{needs.build.outputs.output3}}"
