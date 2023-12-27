@@ -17,17 +17,17 @@ jobs:
         uses: actions/checkout@v2
       - name: Build image
         run: |
-          docker build -t rk90229/count-user-visits:${{ github.sha }} .
+          docker build -t custom-nginx-image:${{ github.sha }} .
           docker images
           ls -alth
       - name: Scan Image
         id: step2
         uses: neuvector/scan-action@main
         with:
-          image-repository: rk90229/count-user-visits
+          image-repository: custom-nginx-image
           image-tag: ${{ github.sha }}
-            #min-high-cves-to-fail: "3"
-            #min-medium-cves-to-fail: "7"
+          min-high-cves-to-fail: "3"
+          min-medium-cves-to-fail: "7"
           cve-names-to-fail: "CVE-2023-2603,CVE-2022-3602"
   job2:
     runs-on: ubuntu-latest
